@@ -10,7 +10,7 @@
 
 % extensions
 
-\RequirePackage[latin1]{inputenc}
+\RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 \RequirePackage[francais]{babel}
 \RequirePackage{lmodern}
@@ -51,17 +51,17 @@
 %\raggedbottom
 
 
-\renewcommand{\abstract}[1]{\textbf{Résumé} : \itshape  }
-\newcommand{\keywords}[1]{\textbf{Mots-clés} : \itshape #1 \normalfont}
+\renewcommand{\abstract}[1]{\textbf{RÃ©sumÃ©} : \itshape  }
+\newcommand{\keywords}[1]{\textbf{Mots-clÃ©s} : \itshape #1 \normalfont}
 
 
 
 \newtheorem{remarque}{Remarque}
-\newtheorem{propriete}{Propriété}
+\newtheorem{propriete}{PropriÃ©tÃ©}
 \newtheorem{corollaire}{Corollaire}
-\newtheorem{definition}{Définition}
+\newtheorem{definition}{DÃ©finition}
 \newtheorem{notation}{Notation}
-\newtheorem{theoreme}{Théorème}
+\newtheorem{theoreme}{ThÃ©orÃ¨me}
 \newtheorem{proposition}{Proposition}
 \newtheorem{exemple}{Exemple}
 
@@ -127,7 +127,7 @@
 
 
 
-  % définition de l'en-tête
+  % dÃ©finition de l'en-tÃªte
 
   \def\ps@myheadings{%
     \let\@oddfoot\@empty\let\@evenfoot\@empty
