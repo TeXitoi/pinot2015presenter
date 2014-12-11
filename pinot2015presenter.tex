@@ -1,5 +1,7 @@
 \documentclass{roadef}
 
+\def\S{\mathcal{S}}
+
 \begin{document}
 
 \title{Présenter une~liste~de~dates de~manière~lisible: complexité~et~algorithmes}
@@ -8,7 +10,7 @@
 \def\shorttitle{Présenter une~liste~de~dates de~manière~lisible}
 
 % Les auteurs et leur numéro d'affiliation
-\author{Guillaume Pinot\inst{1}}
+\author{Guillaume Pinot}
 
 % Les affiliations (par ordre croissant des numéros d'affiliation) séparées par \and
 \institute{
@@ -21,7 +23,7 @@
 \thispagestyle{empty}
 
 % Les mots-clés
-\keywords{recherche operationnelle, optimisation.}
+\keywords{complexité, algorithme, \emph{closest string problem}.}
 
 
 \section{Introduction}
@@ -76,71 +78,64 @@ Vendredi~» nous avons donc la chaîne «~1111100~».
 
 Les données du problèmes peuvent alors être modélisé comme une liste
 de chaînes binaires de longueur 7 que l'on appellera
-$\mathcal{S}$. Pour notre exemple, cela donne:
+$\S$. Pour notre exemple, cela donne:
 \begin{displaymath}
-  \mathcal{S} = 1111000, 1111000, 1110100, 1111100, 0111110
+  \S = 1111000, 1111000, 1110100, 1111100, 0111110
 \end{displaymath}
 
-distance de Hamming \cite{hamming1950error} $d(x, y)$.
+Si nous voulons décrire un rythme hebdomadaire $s_1$ en fonction d'un
+autre $s_2$, le nombre d'exception est le nombre de substitutions de
+caractère nécessaire pour aller de $s_1$ à $s_2$. Cette distance est
+appelé la distance de Hamming \cite{hamming1950error}. On la notera
+$d(s_1, s_2)$.
 
-Soit $\mathcal{S} = s_1, s_2, \ldots, s_n$, $n$ chaînes binaire de
-longueur 7.  Le meilleur rythme hebdomadaire est représenté par la
-chaîne binaire de longueur 7 $s$ tel que
+Pour résoudre notre problème, nous devons donc trouver la chaîne $s$
+qui minimise la somme des distances avec $\S$. Ce qui nous donne la
+formalisation suivante:
+
+Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes binaire de
+longueur 7. Soit
 \begin{math}
-  \textrm{minimiser } d, d = \sum_{s_i\in\mathcal{S}} d(s, s_i)
+  d_s = \sum_{s_i\in\S} d(s, s_i)
 \end{math}.
+Le meilleur rythme hebdomadaire est représenté par la chaîne $s$
+minimisant $d_s$.
 
 \section{Comparaison avec l'existant et complexité}
 
 Le \emph{closest string problem} est un problème très proche du notre.
-Il se définit ainsi: soit $\mathcal{S} = s_1, s_2, \ldots, s_n$, $n$
-chaînes sur l'alphabet $\Sigma$ de longueur $m$.  Le \emph{closest
-  string problem} a pour solution la chaîne de longueur $m$ $s$ tel
-que
-\begin{math}
-  \textrm{minimiser } d, d = \max_{s_i\in\mathcal{S}} d(s, s_i)
-\end{math}.
+Il se définit ainsi: soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes
+sur l'alphabet $\Sigma$ de longueur $m$.  Soit $d_s = \max_{s_i\in\S}
+d(s, s_i)$. Le \emph{closest string problem} a pour solution la
+chaîne~$s$ de longueur $m$ minimisant $d_s$.
 
 Ce problème est NP-difficile \cite{lanctot2003distinguishing} et sa
 complexité paramétrique est
 \begin{math}
-  O(nm + nd\cdot(16|\Sigma|)^d)
+  O(nm + nd\cdot(16|\Sigma|)^{d_s})
 \end{math}
 \cite{ma2008more}.
 
-réduc min max -> min sum?
-
-notre cas avec alphabet binaire et chaines de 7 caractères.
+Notre problème est donc le \emph{closest string problem} avec $\Sigma
+= \{0, 1\}, m = 7$ et une fonction objectif différente (nous
+minimisons une somme au lieu de minimiser un maximum). La complexité
+paramétrique du \emph{closest string problem} n'étant pas exponentiel
+sur $n$, nous pouvons espérer trouver un algorithme polynomial pour
+résoudre notre problème (avec une constante potentiellement élevée
+fonction de $|\Sigma|^m = 2^7 = 128$).
 
 \section{Algorithme}
 
-Calcul de la matrice de distance, voir Tableau \ref{matrice-distances}.
-
-\begin{table}[!ht]
-  \begin{center}
-    \begin{tabular}{|c|cccccccc|}
-      \hline
-      & 000 & 001 & 010 & 011 & 100 & 101 & 110 & 111\\
-      \hline
-      000 & 0 & 1 &   1 &   2 &   1 &   2 &   2 &   3\\
-      001 & 1 & 0 &   2 &   1 &   2 &   1 &   3 &   2\\
-      010 & 1 & 2 &   0 &   1 &   2 &   3 &   1 &   2\\
-      011 & 2 & 1 &   1 &   0 &   3 &   2 &   2 &   1\\
-      100 & 1 & 2 &   2 &   3 &   0 &   1 &   1 &   2\\
-      101 & 2 & 1 &   3 &   2 &   1 &   0 &   2 &   1\\
-      110 & 2 & 3 &   1 &   2 &   1 &   2 &   0 &   1\\
-      111 & 3 & 2 &   2 &   1 &   2 &   1 &   1 &   0\\
-      \hline
-    \end{tabular}
-    \caption{Matrice de distance pour les chaînes de 3 caractères}
-    \label{matrice-distances}
-  \end{center}
-\end{table}
-
-Création du vecteur de poids, évaluation d'une solution, brut force sur
-les patterns.
-
-exemple avec 011 101 110 -> 111
+Pour résoudre notre problème, nous proposons d'énumérer toutes les
+chaînes candidates, et d'en évaluer son coût. Nous gardons finalement
+la chaîne minimisant le coût. Nous avons $|\Sigma|^m = 2^7 = 128$
+chaînes possibles. Évaluer une solution a pour complexité $O(mn) =
+O(7n) = O(n)$. Ainsi, la complexité globale de notre algorithme est
+$O(mn\cdot|\Sigma|^m) = O(7n\cdot128) = O(n)$. En pratique, le temps
+de résolution est négligeable.\footnote{Notre implémentation utilise
+  différentes optimisations et précalculs que nous ne pouvons
+  expliquer dans cet article pour des raisons de place. La complexité
+  théorique est la même.}
 
 \section{Conclusions et perspectives}
 
