@@ -40,7 +40,7 @@ avons donc besoin de décrire sous forme condensé cette liste de dates.
 
 En entrée du problème, nous avons donc une liste de dates.  En sortie,
 nous voulons écrire une phrase du genre \emph{du Lundi au Vendredi du
-  27 avril au 31 mai 2015 sauf les 1, 8, 14 et 25 mai et le 30 mai}.
+  27 avril au 31 mai 2015 sauf les 1, 8, 14 et 25 mai avec le 30 mai}.
 
 Notre résultat à notre problème doit donc décrire notre liste de dates
 avec:
@@ -48,10 +48,10 @@ avec:
 \item un rythme hebdomadaire (ex: du Lundi au Vendredi);
 \item une période de validité (ex: du 27 avril au 31 mai);
 \item une liste de date exclues (ex: sauf les 1, 8, 14 et 25 mai);
-\item une liste de dates incluses (ex: et le 6 mai).
+\item une liste de dates incluses (ex: avec le 6 mai).
 \end{itemize}
 
-Pour que notre description soit le plus simple possible, il faut
+Pour que notre description soit la plus simple possible, il faut
 minimiser le nombre d'exceptions (les dates exclues et incluses).
 
 Nous pouvons facilement transformer la liste de dates en succession de
@@ -74,15 +74,39 @@ Nous pouvons modéliser notre rythme hebdomadaire grâce à une chaîne de
 pour un jour actif. Pour le rythme hebdomadaire «~du Lundi au
 Vendredi~» nous avons donc la chaîne «~1111100~».
 
-rythme hebdomadaire -> chaînes de 0 et 1
+Les données du problèmes peuvent alors être modélisé comme une liste
+de chaînes binaires de longueur 7 que l'on appellera
+$\mathcal{S}$. Pour notre exemple, cela donne:
+\begin{displaymath}
+  \mathcal{S} = 1111000, 1111000, 1110100, 1111100, 0111110
+\end{displaymath}
 
-distance de Hamming \cite{hamming1950error}.
+distance de Hamming \cite{hamming1950error} $d(x, y)$.
 
-modèle
+Soit $\mathcal{S} = s_1, s_2, \ldots, s_n$, $n$ chaînes binaire de
+longueur 7.  Le meilleur rythme hebdomadaire est représenté par la
+chaîne binaire de longueur 7 $s$ tel que
+\begin{math}
+  \textrm{minimiser } d, d = \sum_{s_i\in\mathcal{S}} d(s, s_i)
+\end{math}.
 
 \section{Comparaison avec l'existant et complexité}
 
-The closest string problem, NP-hard, \cite{lanctot2003distinguishing}
+Le \emph{closest string problem} est un problème très proche du notre.
+Il se définit ainsi: soit $\mathcal{S} = s_1, s_2, \ldots, s_n$, $n$
+chaînes sur l'alphabet $\Sigma$ de longueur $m$.  Le \emph{closest
+  string problem} a pour solution la chaîne de longueur $m$ $s$ tel
+que
+\begin{math}
+  \textrm{minimiser } d, d = \max_{s_i\in\mathcal{S}} d(s, s_i)
+\end{math}.
+
+Ce problème est NP-difficile \cite{lanctot2003distinguishing} et sa
+complexité paramétrique est
+\begin{math}
+  O(nm + nd\cdot(16|\Sigma|)^d)
+\end{math}
+\cite{ma2008more}.
 
 réduc min max -> min sum?
 
@@ -93,24 +117,24 @@ notre cas avec alphabet binaire et chaines de 7 caractères.
 Calcul de la matrice de distance, voir Tableau \ref{matrice-distances}.
 
 \begin{table}[!ht]
-    \begin{center}
-        \begin{tabular}{|c|cccccccc|}
-            \hline
-            & 000 & 001 & 010 & 011 & 100 & 101 & 110 & 111\\
-            \hline
-            000 & 0 & 1 &   1 &   2 &   1 &   2 &   2 &   3\\
-            001 & 1 & 0 &   2 &   1 &   2 &   1 &   3 &   2\\
-            010 & 1 & 2 &   0 &   1 &   2 &   3 &   1 &   2\\
-            011 & 2 & 1 &   1 &   0 &   3 &   2 &   2 &   1\\
-            100 & 1 & 2 &   2 &   3 &   0 &   1 &   1 &   2\\
-            101 & 2 & 1 &   3 &   2 &   1 &   0 &   2 &   1\\
-            110 & 2 & 3 &   1 &   2 &   1 &   2 &   0 &   1\\
-            111 & 3 & 2 &   2 &   1 &   2 &   1 &   1 &   0\\
-            \hline
-        \end{tabular}
-        \caption{Matrice de distance pour les chaînes de 3 caractères}
+  \begin{center}
+    \begin{tabular}{|c|cccccccc|}
+      \hline
+      & 000 & 001 & 010 & 011 & 100 & 101 & 110 & 111\\
+      \hline
+      000 & 0 & 1 &   1 &   2 &   1 &   2 &   2 &   3\\
+      001 & 1 & 0 &   2 &   1 &   2 &   1 &   3 &   2\\
+      010 & 1 & 2 &   0 &   1 &   2 &   3 &   1 &   2\\
+      011 & 2 & 1 &   1 &   0 &   3 &   2 &   2 &   1\\
+      100 & 1 & 2 &   2 &   3 &   0 &   1 &   1 &   2\\
+      101 & 2 & 1 &   3 &   2 &   1 &   0 &   2 &   1\\
+      110 & 2 & 3 &   1 &   2 &   1 &   2 &   0 &   1\\
+      111 & 3 & 2 &   2 &   1 &   2 &   1 &   1 &   0\\
+      \hline
+    \end{tabular}
+    \caption{Matrice de distance pour les chaînes de 3 caractères}
     \label{matrice-distances}
-    \end{center}
+  \end{center}
 \end{table}
 
 Création du vecteur de poids, évaluation d'une solution, brut force sur
