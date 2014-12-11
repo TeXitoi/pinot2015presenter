@@ -4,7 +4,7 @@
 
 \begin{document}
 
-\title{Présenter une~liste~de~dates de~manière~lisible: complexité~et~algorithmes}
+\title{Présenter une~liste~de~dates de~manière~lisible: complexité~et~algorithme}
 
 % Le titre court
 \def\shorttitle{Présenter une~liste~de~dates de~manière~lisible}
@@ -28,13 +28,18 @@
 
 \section{Introduction}
 
-Canal TP
+Canal TP est une entreprise fournissant des outils dédiés à
+l'information voyageur dans les transports en commun. Pour répondre à
+cette problématique, elle propose la suite logiciel navitia disponible
+en logiciel libre sur GitHub ainsi que via le \emph{web service}
+\texttt{http://navitia.io/}. Cette suite propose entre autre un
+calculateur d'itinéraire et un accès aux différentes données de
+transport.
 
-navitia et navitia.io
-
-Dans navitia, nous fournissons les dates auxquelles circulent les
-véhicules.  Or, une liste de dates est peu lisible par un humain. Nous
-avons donc besoin de décrire sous forme condensée cette liste de dates.
+Dans navitia, les dates auxquelles circulent les véhicules sont
+fournises.  Or, une liste de dates est peu lisible par un humain. Il
+est donc nécessaire de décrire sous forme condensée cette liste de
+dates.
 
 \section{Le problème}
 
@@ -76,12 +81,13 @@ Nous pouvons modéliser notre rythme hebdomadaire grâce à une chaîne de
 pour un jour actif. Pour le rythme hebdomadaire «~du Lundi au
 Vendredi~» nous avons donc la chaîne «~1111100~».
 
-Les données du problèmes peuvent alors être modélisé comme une liste
-de chaînes binaires de longueur 7 que l'on appellera
-$\S$. Pour notre exemple, cela donne:
-\begin{displaymath}
+Les données du problème peuvent alors être modélisées comme une liste
+de chaînes binaires de longueur 7 que l'on appellera $\S$.
+
+Pour notre exemple, nous avons donc
+\begin{math}
   \S = 1111000, 1111000, 1110100, 1111100, 0111110
-\end{displaymath}
+\end{math}.
 
 Si nous voulons décrire un rythme hebdomadaire $s_1$ en fonction d'un
 autre $s_2$, le nombre d'exception est le nombre de substitutions de
@@ -96,18 +102,18 @@ formalisation suivante:
 Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes binaire de
 longueur 7. Soit
 \begin{math}
-  d_s = \sum_{s_i\in\S} d(s, s_i)
+  d_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)
 \end{math}.
-Le meilleur rythme hebdomadaire est représenté par la chaîne $s$
-minimisant $d_s$.
+Le meilleur rythme hebdomadaire est représenté par la chaîne $s$ tel
+que $d_s$ soit minimale.
 
 \section{Comparaison avec l'existant et complexité}
 
 Le \emph{closest string problem} est un problème très proche du notre.
 Il se définit ainsi: soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes
-sur l'alphabet $\Sigma$ de longueur $m$.  Soit $d_s = \max_{s_i\in\S}
-d(s, s_i)$. Le \emph{closest string problem} a pour solution la
-chaîne~$s$ de longueur $m$ minimisant $d_s$.
+sur l'alphabet $\Sigma$ de longueur $m$.  Soit $d_{s_i} = \max_{s_j\in\S}
+d(s_i, s_j)$. Le \emph{closest string problem} a pour solution la
+chaîne~$s$ de longueur $m$ tel que $d_s$ soit minimale.
 
 Ce problème est NP-difficile \cite{lanctot2003distinguishing} et sa
 complexité paramétrique est
@@ -132,17 +138,21 @@ la chaîne minimisant le coût. Nous avons $|\Sigma|^m = 2^7 = 128$
 chaînes possibles. Évaluer une solution a pour complexité $O(mn) =
 O(7n) = O(n)$. Ainsi, la complexité globale de notre algorithme est
 $O(mn\cdot|\Sigma|^m) = O(7n\cdot128) = O(n)$. En pratique, le temps
-de résolution est négligeable.\footnote{Notre implémentation utilise
-  différentes optimisations et précalculs que nous ne pouvons
-  expliquer dans cet article pour des raisons de place. La complexité
-  théorique est la même.}
+de résolution est négligeable.
 
 \section{Conclusions et perspectives}
 
-conclusions
+Un petit problème pratique à première vue simple simple est présenté
+dans cet article. Ce problème se révèle finalement être très proche
+d'un problème NP-difficile. Comme la taille de certains paramètres
+sont fixés dans notre cas, notre problème reste malgés tout
+polynômial.
 
-perspectives: Plusieurs patterns, Gestion des semaines partielles aux
-bords.
+Notre problème pourrait être légèrement modifié pour en améliorer le
+résultat. Les semaines partielles sur les bords de la période de
+validité pourraient être prises en compte pour minimiser les
+exceptions. Plusieurs rythmes hebdomadaires pourraient être retournés
+pour condenser encore plus la phrase produite.
 
 \bibliographystyle{plain}
 \bibliography{pinot2015presenter}
