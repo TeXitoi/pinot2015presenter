@@ -45,12 +45,12 @@ dates.
 
 \subsection{Description du problème}
 
-En entrée du problème, nous avons donc une liste de dates.  En sortie,
-nous voulons écrire une phrase du genre \emph{du Lundi au Vendredi du
-  27 avril au 31 mai 2015 sauf les 1, 8, 14 et 25 mai avec le 30 mai}.
+Une liste de dates constitue donc l'entrée de notre problème. La
+solution est une phrase, la plus courte possible, du genre \emph{du
+  Lundi au Vendredi du 27 avril au 31 mai 2015 sauf les 1, 8, 14 et 25
+  mai avec le 30 mai}.
 
-Notre résultat à notre problème doit donc décrire notre liste de dates
-avec:
+Le résultat à ce problème doit donc décrire la liste de dates avec:
 \begin{itemize}
 \item un rythme hebdomadaire (ex: du Lundi au Vendredi);
 \item une période de validité (ex: du 27 avril au 31 mai);
@@ -58,11 +58,11 @@ avec:
 \item une liste de dates incluses (ex: avec le 6 mai).
 \end{itemize}
 
-Pour que notre description soit la plus simple possible, il faut
+Pour que la description soit la plus simple possible, il faut
 minimiser le nombre d'exceptions (les dates exclues et incluses).
 
-Nous pouvons facilement transformer la liste de dates en succession de
-rythmes hebdomadaires. Pour notre exemple, cela donnerait:
+Il est facile de transformer la liste de dates en succession de
+rythmes hebdomadaires. Pour notre exemple, cela donne:
 \begin{itemize}
 \item Semaines du 27 avril et du 4 mai: Du Lundi au Jeudi;
 \item Semaine du 11 mai: Du Lundi au Vendredi sauf Jeudi;
@@ -76,21 +76,21 @@ journalier tel que le nombre d'exceptions soit minimal.
 
 \subsection{Modélisation mathématiques}
 
-Nous pouvons modéliser notre rythme hebdomadaire grâce à une chaîne de
-7~bits: un caractère par jour de la semaine, 0 pour un jour inactif, 1
-pour un jour actif. Pour le rythme hebdomadaire «~du Lundi au
-Vendredi~» nous avons donc la chaîne «~1111100~».
+Le rythme hebdomadaire peut être modélisé par une chaîne de 7~bits: un
+caractère par jour de la semaine, 0 pour un jour inactif, 1 pour un
+jour actif. La chaîne correspondant au rythme hebdomadaire «~du Lundi
+au Vendredi~» est donc «~1111100~».
 
 Les données du problème peuvent alors être modélisées comme une liste
 de chaînes binaires de longueur 7 que l'on appellera $\S$.
 
-Pour notre exemple, nous avons donc
+Les données de l'exemple sont donc
 \begin{math}
   \S = 1111000, 1111000, 1110100, 1111100, 0111110
 \end{math}.
 
-Si nous voulons décrire un rythme hebdomadaire $s_1$ en fonction d'un
-autre $s_2$, le nombre d'exception est le nombre de substitutions de
+Pour décrire un rythme hebdomadaire $s_1$ en fonction d'un autre
+$s_2$, le nombre d'exception correspond au nombre de substitutions de
 caractère nécessaire pour aller de $s_1$ à $s_2$. Cette distance est
 appelé la distance de Hamming \cite{hamming1950error}. On la notera
 $d(s_1, s_2)$.
@@ -99,7 +99,7 @@ Pour résoudre notre problème, nous devons donc trouver la chaîne $s$
 qui minimise la somme des distances avec $\S$. Ce qui nous donne la
 formalisation suivante:
 
-Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes binaire de
+Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes binaires de
 longueur 7. Soit
 \begin{math}
   d_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)
@@ -109,11 +109,11 @@ que $d_s$ soit minimale.
 
 \section{Comparaison avec l'existant et complexité}
 
-Le \emph{closest string problem} est un problème très proche du notre.
-Il se définit ainsi: soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes
-sur l'alphabet $\Sigma$ de longueur $m$.  Soit $d_{s_i} = \max_{s_j\in\S}
-d(s_i, s_j)$. Le \emph{closest string problem} a pour solution la
-chaîne~$s$ de longueur $m$ tel que $d_s$ soit minimale.
+Le \emph{closest string problem} est un problème très proche de ce
+problème.  Il se définit ainsi: soit $\S = s_1, s_2, \ldots, s_n$, $n$
+chaînes sur l'alphabet $\Sigma$ de longueur $m$.  Soit $d_{s_i} =
+\max_{s_j\in\S} d(s_i, s_j)$. Le \emph{closest string problem} a pour
+solution la chaîne~$s$ de longueur $m$ tel que $d_s$ soit minimale.
 
 Ce problème est NP-difficile \cite{lanctot2003distinguishing} et sa
 complexité paramétrique est
@@ -123,8 +123,8 @@ complexité paramétrique est
 \cite{ma2008more}.
 
 Notre problème est donc le \emph{closest string problem} avec $\Sigma
-= \{0, 1\}, m = 7$ et une fonction objectif différente (nous
-minimisons une somme au lieu de minimiser un maximum). La complexité
+= \{0, 1\}, m = 7$ et une fonction objectif différente (notre problème
+minimise une somme au lieu de minimiser un maximum). La complexité
 paramétrique du \emph{closest string problem} n'étant pas exponentiel
 sur $n$, nous pouvons espérer trouver un algorithme polynomial pour
 résoudre notre problème (avec une constante potentiellement élevée
@@ -133,8 +133,8 @@ fonction de $|\Sigma|^m = 2^7 = 128$).
 \section{Algorithme}
 
 Pour résoudre notre problème, nous proposons d'énumérer toutes les
-chaînes candidates, et d'en évaluer son coût. Nous gardons finalement
-la chaîne minimisant le coût. Nous avons $|\Sigma|^m = 2^7 = 128$
+chaînes candidates, et d'en évaluer son coût.  La chaîne minimisant le
+coût est finalement retourné. Nous avons $|\Sigma|^m = 2^7 = 128$
 chaînes possibles. Évaluer une solution a pour complexité $O(mn) =
 O(7n) = O(n)$. Ainsi, la complexité globale de notre algorithme est
 $O(mn\cdot|\Sigma|^m) = O(7n\cdot128) = O(n)$. En pratique, le temps
