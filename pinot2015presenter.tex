@@ -38,10 +38,10 @@
   données de transport.
 \end{sloppypar}
 
-Dans navitia, les dates auxquelles circulent les véhicules de transport en commun sont
-fournies.  Or, une liste de dates est peu lisible par un humain. Il
-est donc nécessaire de décrire sous forme condensée cette liste de
-dates.
+Dans navitia, les dates auxquelles circulent les véhicules de
+transport en commun sont fournies.  Or, une liste de dates est peu
+lisible par un humain. Il est donc nécessaire de décrire sous forme
+condensée cette liste de dates.
 
 \section{Le problème}
 
@@ -135,8 +135,8 @@ fonction de $|\Sigma|^m = 2^7 = 128$).
 \section{Algorithme}
 
 Pour résoudre notre problème, nous proposons d'énumérer toutes les
-chaînes candidates, et d'en évaluer chaque coût.  La chaîne minimisant le
-coût est finalement retourné. Nous avons $|\Sigma|^m = 2^7 = 128$
+chaînes candidates, et d'en évaluer chaque coût.  La chaîne minimisant
+le coût est finalement retourné. Nous avons $|\Sigma|^m = 2^7 = 128$
 chaînes possibles. Évaluer une solution a pour complexité $O(mn) =
 O(7n) = O(n)$. Ainsi, la complexité globale de notre algorithme est
 $O(mn\cdot|\Sigma|^m) = O(7n\cdot128) = O(n)$. En pratique, le temps
