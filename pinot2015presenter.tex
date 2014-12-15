@@ -28,15 +28,13 @@
 
 \section{Introduction}
 
-\begin{sloppypar}
-  Canal TP est une entreprise fournissant des outils dédiés à
-  l'information voyageur y compris dans les transports en commun. Pour
-  répondre à cette problématique, elle propose la suite logiciel
-  navitia disponible en logiciel libre sur GitHub ainsi que via le
-  \emph{web service} \texttt{http://navitia.io/}. Cette suite propose
-  entre autre un calculateur d'itinéraire et un accès aux différentes
-  données de transport.
-\end{sloppypar}
+Canal TP est un éditeur logiciel fournissant l'expertise et les
+solutions liées à l'information voyageurs y compris dans les
+transports en commun. Pour répondre à cette problématique, elle
+propose le moteur navitia disponible en logiciel libre ainsi que via
+le \emph{web service} \texttt{http://navitia.io/}. Ce moteur propose
+entre autre un calculateur d'itinéraire et un accès aux différentes
+données de transport.
 
 Dans navitia, les dates auxquelles circulent les véhicules de
 transport en commun sont fournies.  Or, une liste de dates est peu
@@ -50,14 +48,14 @@ condensée cette liste de dates.
 Une liste de dates constitue donc l'entrée de notre problème. La
 solution est une phrase, la plus courte possible, du genre \emph{du
   Lundi au Vendredi du 27 avril au 31 mai 2015 sauf les 1, 8, 14 et 25
-  mai, circule en plus le 30 mai}.
+  mai, avec en plus le 30 mai}.
 
 Le résultat de ce problème doit donc décrire la liste de dates avec:
 \begin{itemize}
-\item un rythme hebdomadaire (ex: du Lundi au Vendredi);
-\item une période de validité (ex: du 27 avril au 31 mai);
-\item une liste de date exclues (ex: sauf les 1, 8, 14 et 25 mai);
-\item une liste de dates incluses (ex: circule en plus le 30 mai).
+\item un rythme hebdomadaire (exemple: du Lundi au Vendredi);
+\item une période de validité (exemple: du 27 avril au 31 mai);
+\item une liste de date exclues (exemple: sauf les 1, 8, 14 et 25 mai);
+\item une liste de dates incluses (exemple: avec en plus le 30 mai).
 \end{itemize}
 
 Pour que la description soit la plus simple possible, il faut
@@ -104,33 +102,33 @@ formalisation suivante:
 Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes binaires de
 longueur 7. Soit
 \begin{math}
-  d_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)
+  d^\Sigma_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)
 \end{math}.
 Le meilleur rythme hebdomadaire est représenté par la chaîne $s$ tel
-que $d_s$ soit minimale.
+que $d^\Sigma_s$ soit minimale.
 
 \section{Comparaison avec l'existant et complexité}
 
-Le \emph{closest string problem} est un problème très proche de ce
-problème.  Il se définit ainsi: soit $\S = s_1, s_2, \ldots, s_n$, $n$
-chaînes sur l'alphabet $\Sigma$ de longueur $m$.  Soit $d_{s_i} =
+Le \emph{closest string problem} est un problème très proche.  Il se
+définit ainsi: soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes sur
+l'alphabet $\Sigma$ de longueur $m$.  Soit $d^{\max}_{s_i} =
 \max_{s_j\in\S} d(s_i, s_j)$. Le \emph{closest string problem} a pour
-solution la chaîne~$s$ de longueur $m$ tel que $d_s$ soit minimale.
-
-Ce problème est NP-difficile \cite{lanctot2003distinguishing} et sa
-complexité paramétrique est
+solution la chaîne~$s$ de longueur $m$ tel que $d^{\max}_s$ soit
+minimale.  Ce problème est NP-difficile
+\cite{lanctot2003distinguishing} et sa complexité paramétrique est
 \begin{math}
-  O(nm + nd\cdot(16|\Sigma|)^{d_s})
+  O(nm + nd^{\max}_s(16|\Sigma|)^{d^{\max}_s})
 \end{math}
 \cite{ma2008more}.
 
 Notre problème est donc le \emph{closest string problem} avec $\Sigma
 = \{0, 1\}, m = 7$ et une fonction objectif différente (notre problème
-minimise une somme au lieu de minimiser un maximum). La complexité
-paramétrique du \emph{closest string problem} n'étant pas exponentiel
-sur $n$, nous pouvons espérer trouver un algorithme polynomial pour
-résoudre notre problème (avec une constante potentiellement élevée
-fonction de $|\Sigma|^m = 2^7 = 128$).
+minimise la somme $d^\Sigma_s$ au lieu de minimiser le maximum
+$d^{\max}_s$). La complexité paramétrique du \emph{closest string
+  problem} n'étant pas exponentiel sur $n$, nous pouvons espérer
+trouver un algorithme polynomial pour résoudre notre problème (avec
+une constante potentiellement élevée fonction de $|\Sigma|^m = 2^7 =
+128$).
 
 \section{Algorithme}
 
@@ -144,10 +142,10 @@ de résolution est négligeable.
 
 \section{Conclusions et perspectives}
 
-Un petit problème pratique à première vue simple simple est présenté
-dans cet article. Ce problème se révèle finalement être très proche
-d'un problème NP-difficile. Comme la taille de certains paramètres
-est fixé, le problème reste malgré tout polynômial.
+Un petit problème pratique à première vue simple est présenté dans cet
+article. Ce problème se révèle finalement être très proche d'un
+problème NP-difficile. Comme la taille de certains paramètres est
+fixée, le problème reste malgré tout polynômial.
 
 Ce problème pourrait être légèrement modifié pour en améliorer le
 résultat. Les semaines partielles sur les bords de la période de
