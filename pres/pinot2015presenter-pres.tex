@@ -47,6 +47,8 @@
 %% exception
 \newcommand{\x}{\cellcolor[gray]{0.8}\rmfamily\itshape}
 
+\def\S{\mathcal{S}}
+
 \newcommand{\nologo}{\setbeamertemplate{logo}{}}
 
 \newenvironment{foreignpar}[1][english]{%
@@ -164,7 +166,7 @@
 
 {\nologo
 \begin{frame}
-  \frametitle{Objectif}
+  \frametitle{Description du problème}
 
   \begin{block}{Calendrier}
     \centering
@@ -184,37 +186,128 @@
   \begin{block}{Sortie humaine}
     \centering
     \begin{tabular}{rl}
-      Du Lundi au Vendredi         & \visible<2>{un rythme hebdomadaire}\\
-      du 27 avril au 31 mai 2015   & \visible<2>{une période de validité}\\
-      sauf les 1, 8, 14 et 25 mai, & \visible<2>{une liste de date exclues}\\
-      avec en plus le 30 mai.      & \visible<2>{une liste de date incluses}\\
+      Du Lundi au Vendredi         & \visible<2->{un rythme hebdomadaire}\\
+      du 27 avril au 31 mai 2015   & \visible<2->{une période de validité}\\
+      sauf les 1, 8, 14 et 25 mai, & \visible<2->{une liste de date exclues}\\
+      avec en plus le 30 mai.      & \visible<2->{une liste de date incluses}\\
+      \visible<3->{Objectif:}      & \visible<3->{minimiser le nombre d'exceptions}\\
     \end{tabular}
   \end{block}
 \end{frame}
 }
 
 \begin{frame}
-  \frametitle{Description du problème}
+  \frametitle{Données du problème}
 
+  \begin{block}{Calendrier}
+    \centering
+    \begin{tabular}{|ccccccc|}
+      \hline
+      Lu  & Ma & Me & Je & Ve & Sa & Di\\
+      \hline
+      \+27&\+28&\+29&\+30&  1 &  2 &  3\\
+      \+4 & \+5& \+6& \+7&  8 &  9 & 10\\
+      \+11&\+12&\+13& 14 &\+15& 16 & 17\\
+      \+18&\+19&\+20&\+21&\+22& 23 & 24\\
+      25  &\+26&\+27&\+28&\+29&\+30& 31\\
+      \hline
+    \end{tabular}
+  \end{block}
+
+  \begin{block}{Données du problème}
+    \centering\strut
+    \begin{math}
+      \only<2->{\S = }%
+      1111000\only<2->{, }1111000\only<2->{, }%
+      1110100\only<2->{, }1111100\only<2->{, }0111110
+    \end{math}
+  \end{block}
+
+  \pause[3] Les rythmes hebdomadaires de chaque semaine.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Modélisation mathématiques}
+  \frametitle{Distance de Hamming}
 
   \cite{hamming1950error} 
 \end{frame}
 
+\begin{frame}
+  \frametitle{Modèle mathématique}
+
+  Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes binaires de
+  longueur 7.
+
+  Soit
+  \begin{math}
+    \displaystyle
+    d^\Sigma_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)
+  \end{math}.
+
+  Le meilleur rythme hebdomadaire est représenté par la chaîne $s$ tel
+  que $d^\Sigma_s$ soit minimale.
+\end{frame}
+
 \section{Comparaison avec l'existant et complexité}
 
-\begin{frame}[allowframebreaks]
-  \frametitle{Transformation}
+\begin{frame}
+  \frametitle{Le \foreign{closest string problem}}
 
-  tip \cite{lanctot2003distinguishing}
+  \begin{block}{Le \foreign{closest string problem}}
+    Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes sur l'alphabet
+    $\Sigma$ de longueur $m$.
 
-  \framebreak
+    Soit $\displaystyle d^{\max}_{s_i} = \max_{s_j\in\S} d(s_i, s_j)$.
 
-  top \cite{ma2008more}
+    Le \emph{closest string problem} a pour solution la chaîne~$s$ tel
+    que $d^{\max}_s$ soit minimale.
+  \end{block}
+
+  Complexité:
+  \begin{itemize}
+  \item NP-difficile \cite{lanctot2003distinguishing}
+  \item $O(nm + nd^{\max}_s(16|\Sigma|)^{d^{\max}_s})$
+    \cite{ma2008more} (exponentielle sur $n$)
+  \end{itemize}
 \end{frame}
+
+{\nologo
+\begin{frame}
+  \frametitle{Comparaison des deux problèmes}
+
+  \begin{block}{Notre problème}
+    Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes \alert<2>{binaires}
+    de \alert<3>{longueur 7}.
+
+    Soit
+    \begin{math}
+      \displaystyle
+      d^\Sigma_{s_i} = \alert<4>{\sum_{s_j\in\S}} d(s_i, s_j)
+    \end{math}.
+
+    Le meilleur rythme hebdomadaire est représenté par la chaîne $s$
+    tel que $d^\Sigma_s$ soit minimale.
+  \end{block}
+
+  \begin{block}{Le \foreign{closest string problem}}
+    Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes \alert<2>{sur
+      l'alphabet $\Sigma$} de \alert<3>{longueur $m$}.
+
+    Soit
+    \begin{math}
+      \displaystyle
+      d^{\max}_{s_i} = \alert<4>{\max_{s_j\in\S}} d(s_i, s_j)
+    \end{math}.
+
+    Le \emph{closest string problem} a pour solution la chaîne~$s$ tel
+    que $d^{\max}_s$ soit minimale.
+  \end{block}
+
+  \pause[5] Comme le \foreign{closest string problem} est exponentiel
+  sur $n$, nous pouvons espérer trouver un algorithme polynomial à
+  notre problème.
+\end{frame}
+}
 
 \section{Algorithme}
 
