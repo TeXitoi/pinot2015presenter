@@ -3,11 +3,14 @@
 
 \mode<presentation>
 {
+  \definecolor{ctplogo}{RGB}{233,37,73}
+  \definecolor{ctpred}{RGB}{228,65,85}
+  \definecolor{ctporange}{RGB}{255,121,78}
+
   \useoutertheme[subsection=false]{miniframes}
   %%\useoutertheme[footline=authortitle]{miniframes}
-  \usecolortheme[RGB={233,37,73}]{structure}
-  %%\usecolortheme[RGB={255,121,78}]{structure}
-  \usecolortheme{dolphin}
+  \usecolortheme[named=ctplogo]{structure}
+  %%\usecolortheme{dolphin}
   \usecolortheme{orchid}
   \useinnertheme{circles}
   \setbeamerfont{block title}{size=\normalsize}
@@ -29,6 +32,11 @@
     }%
     \vskip0pt%
   }
+
+  \setbeamercolor{palette primary}{fg=white,bg=ctporange}
+  \setbeamercolor{palette secondary}{fg=white,bg=ctpred}
+  \setbeamercolor{palette tertiary}{fg=white,bg=ctporange}
+  \setbeamercolor{palette quaternary}{fg=white,bg=ctpred}
 }
 
 \mode<handout>
