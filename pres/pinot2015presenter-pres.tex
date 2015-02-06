@@ -3,13 +3,12 @@
 
 \mode<presentation>
 {
-  \definecolor{ctplogo}{RGB}{233,37,73}
-  \definecolor{ctpred}{RGB}{228,65,85}
-  \definecolor{ctporange}{RGB}{255,121,78}
+  \definecolor{ctpred}{RGB}{233,38,73}
+  \definecolor{ctporange}{RGB}{243,97,60}
 
   \useoutertheme[subsection=false]{miniframes}
   %%\useoutertheme[footline=authortitle]{miniframes}
-  \usecolortheme[named=ctplogo]{structure}
+  \usecolortheme[named=ctpred]{structure}
   %%\usecolortheme{dolphin}
   \usecolortheme{orchid}
   \useinnertheme{circles}
@@ -53,7 +52,7 @@
 %% jour ouvert (ou open) pour les calendriers
 \newcommand{\+}{\cellcolor[gray]{1}\bfseries}
 %% exception
-\newcommand{\x}{\cellcolor[gray]{0.8}\rmfamily\itshape}
+\newcommand{\<}{\cellcolor[gray]{0.8}\rmfamily\itshape}
 
 \def\S{\mathcal{S}}
 
@@ -65,6 +64,9 @@
 \newcommand*{\foreign}[2][english]{%
     \emph{\foreignlanguage{#1}{#2}}%
 }
+\newenvironment{dispmath}{%
+    \centering\begin{math}\displaystyle
+}{\end{math}\par}
 
 \title[Présenter une~liste~de~dates de~manière~lisible]
 {Présenter une~liste~de~dates de~manière~lisible~:
@@ -90,7 +92,7 @@
 %% is a graphic format that can be processed by latex or pdflatex,
 %% resp., then you can add a logo as follows:
 \pgfdeclareimage[width=.2\linewidth]{logo}{images/canaltp}
-\logo{\pgfuseimage{logo}}
+\logo{\pgfuseimage{logo}\hspace{.04\linewidth}}
 
 
 %% Delete this, if you do not want the table of contents to pop up at
@@ -180,13 +182,13 @@
     \centering
     \begin{tabular}{|ccccccc|}
       \hline
-      Lu  & Ma & Me & Je & Ve & Sa & Di\\
+      Lu  & Ma & Me & Je & Ve & Sa   & Di\\
       \hline
-      \+27&\+28&\+29&\+30&\x 1&  2 &  3\\
-      \+4 & \+5& \+6& \+7&\x 8&  9 & 10\\
-      \+11&\+12&\+13&\x 14&\+15& 16 & 17\\
-      \+18&\+19&\+20&\+21&\+22& 23 & 24\\
-      \x 25&\+26&\+27&\+28&\+29&\+\x 30& 31\\
+      \+27&\+28&\+29&\+30& \<1&  2   &  3\\
+      \+4 & \+5& \+6& \+7& \<8&  9   & 10\\
+      \+11&\+12&\+13&\<14&\+15& 16   & 17\\
+      \+18&\+19&\+20&\+21&\+22& 23   & 24\\
+      \<25&\+26&\+27&\+28&\+29&\+\<30& 31\\
       \hline
     \end{tabular}
   \end{block}
@@ -194,11 +196,11 @@
   \begin{block}{Sortie humaine}
     \centering
     \begin{tabular}{rl}
-      Du Lundi au Vendredi         & \visible<2->{un rythme hebdomadaire}\\
-      du 27 avril au 31 mai 2015   & \visible<2->{une période de validité}\\
-      sauf les 1, 8, 14 et 25 mai, & \visible<2->{une liste de date exclues}\\
-      avec en plus le 30 mai.      & \visible<2->{une liste de date incluses}\\
-      \visible<3->{Objectif:}      & \visible<3->{minimiser le nombre d'exceptions}\\
+      Du Lundi au Vendredi         & \uncover<2->{un rythme hebdomadaire}\\
+      du 27 avril au 31 mai 2015   & \uncover<2->{une période de validité}\\
+      sauf les 1, 8, 14 et 25 mai, & \uncover<2->{une liste de date exclues}\\
+      avec en plus le 30 mai.      & \uncover<2->{une liste de date incluses}\\
+      \uncover<3->{Objectif:}      & \uncover<3->{minimiser le nombre d'exceptions}\\
     \end{tabular}
   \end{block}
 \end{frame}
@@ -237,24 +239,49 @@
 \begin{frame}
   \frametitle{Distance de Hamming}
 
-  \cite{hamming1950error} 
+  Comment exprimer un rythme avec un autre et des exceptions?
+
+  \begin{block}{Compter les exceptions}
+    \centering
+    \begin{tabular}{rl}
+      Du Mardi au Samedi   & $s_1 = \alert<2->{0}1111\alert<2->{1}0$\\
+      Du Lundi au Vendredi & $s_2 = \alert<2->{1}1111\alert<2->{0}0$\\
+      \uncover<3->{Distance de Hamming \cite{hamming1950error}} & \uncover<3->{$d(s_1, s_2) = 2$}
+    \end{tabular}
+  \end{block}
 \end{frame}
 
+{\nologo
 \begin{frame}
   \frametitle{Modèle mathématique}
 
-  Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes binaires de
-  longueur 7.
+  \begin{block}{Le meilleur rythme hebdomadaire}
+    Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes binaires de
+    longueur 7.
 
-  Soit
-  \begin{math}
-    \displaystyle
-    d^\Sigma_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)
-  \end{math}.
+    Soit
+    \begin{dispmath}
+      d^\Sigma_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)
+    \end{dispmath}.
 
-  Le meilleur rythme hebdomadaire est représenté par la chaîne $s$ tel
-  que $d^\Sigma_s$ soit minimale.
+    Le meilleur rythme hebdomadaire est représenté par la chaîne $s$
+    tel que $d^\Sigma_s$ soit minimale.
+  \end{block}
+
+  \begin{block}{Notre exemple}
+    \begin{dispmath}
+      \S = 1111\alert{0}00, 1111\alert{0}00, 111\alert{0}100, 1111100,
+      \alert{0}1111\alert{1}0
+    \end{dispmath}
+
+    Pour le rythme «~du Lundi au Vendredi~», $s_i = 1111100$:
+    \begin{dispmath}
+      d^\Sigma_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)
+      = 1 + 1 + 1 + 0 + 2 = 5
+    \end{dispmath}
+  \end{block}
 \end{frame}
+}
 
 \section{Comparaison avec l'existant et complexité}
 
@@ -275,7 +302,7 @@
   \begin{itemize}
   \item NP-difficile \cite{lanctot2003distinguishing}
   \item $O(nm + nd^{\max}_s(16|\Sigma|)^{d^{\max}_s})$
-    \cite{ma2008more} (exponentielle sur $n$)
+    \cite{ma2008more} (exponentielle sur $m$)
   \end{itemize}
 \end{frame}
 
@@ -283,7 +310,7 @@
 \begin{frame}
   \frametitle{Comparaison des deux problèmes}
 
-  \begin{block}{Notre problème}
+  \begin{block}{Le meilleur rythme hebdomadaire}
     Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes \alert<2>{binaires}
     de \alert<3>{longueur 7}.
 
@@ -312,7 +339,7 @@
   \end{block}
 
   \pause[5] Comme le \foreign{closest string problem} est exponentiel
-  sur $n$, nous pouvons espérer trouver un algorithme polynomial à
+  sur $m$, nous pouvons espérer trouver un algorithme polynomial à
   notre problème.
 \end{frame}
 }
@@ -320,8 +347,34 @@
 \section{Algorithme}
 
 \begin{frame}
-  \frametitle{Algorithme}
+  \frametitle{Énumération exhaustive}
 
+  Soit $\mathcal{D}$ l'ensemble des chaînes binaires de longueur 7.
+
+  $s \leftarrow 0000000$
+
+  $d^\Sigma_s \leftarrow \infty$
+
+  $\forall s_i \in \mathcal{D}$: \uncover<2->{\hfill\emph{$|\Sigma|^m = 2^7 = 128$ fois}}
+  \begin{itemize}
+  \item calculer
+    \begin{math}
+      \displaystyle
+      d^\Sigma_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)
+    \end{math} \uncover<2->{\hfill\emph{$O(mn) = O(7n) = O(n)$}}
+  \item si $d^\Sigma_{s_i} < d^\Sigma_s$:
+    \begin{itemize}
+    \item $d^\Sigma_s \leftarrow d^\Sigma_{s_i}$
+    \item $s \leftarrow s_i$
+    \end{itemize}
+  \end{itemize}
+
+  Résultat: $s$ est le meilleur rythme hebdomadaire, avec
+  $d^\Sigma_s$~exceptions.\pause
+
+  \vspace{2ex}
+
+  Complexité: $O(mn|\Sigma|^m) = O(128 \times 7n) = O(n)$
 \end{frame}
 
 \section{Conclusions et perspectives}
