@@ -132,7 +132,7 @@
 
   \emph{navitia}:
   \begin{itemize}
-  \item un moteur disponible en logiciel lible
+  \item un moteur disponible en logiciel libre
     \url{https://github.com/CanalTP/navitia};
   \item un \foreign{web service} \url{http://navitia.io};
   \item présentation de l'offre de transport: lignes, arrêts, horaires;
@@ -259,10 +259,7 @@
     Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes binaires de
     longueur 7.
 
-    Soit
-    \begin{dispmath}
-      d^\Sigma_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)
-    \end{dispmath}.
+    Soit $\displaystyle d^\Sigma_{s_i} = \sum_{s_j\in\S} d(s_i, s_j)$.
 
     Le meilleur rythme hebdomadaire est représenté par la chaîne $s$
     tel que $d^\Sigma_s$ soit minimale.
@@ -381,8 +378,8 @@
   \frametitle{Modélisation matricielle}
 
   \begin{displaymath}
-    \S = 101, 110, 110, 011, \ldots = 5 \times 011, 5 \times
-    101, 5 \times 110 = 5s_3, 5s_5, 5s_6
+    \S = 101, 110, 110, 011, \ldots = 4 \times 011, 3 \times
+    101, 5 \times 110 = 4s_3, 3s_5, 5s_6
   \end{displaymath}
 
   \begin{displaymath}
@@ -402,22 +399,22 @@
         0\\
         0\\
         0\\
-        \alert<2-4>{5}\\
+        \alert<2-4>{4}\\
         0\\
-        \alert<2-4>{5}\\
+        \alert<2-4>{3}\\
         \alert<2-4>{5}\\
         0\\
       \end{array}
     \right) = \left(
       \begin{array}{c}
-        \alert<2>{30}\\
-        25\\
-        25\\
-        \alert<3>{20}\\
-        25\\
+        \alert<2>{24}\\
+        22\\
+        18\\
+        \alert<3>{16}\\
         20\\
-        20\\
-        \alert<4>{15}\\
+        18\\
+        14\\
+        \alert<4>{12}\\
       \end{array}
     \right)
     \qquad
@@ -434,7 +431,7 @@
   \end{displaymath}\pause[5]
 
   \begin{displaymath}
-    d^\Sigma_s = d^\Sigma_{s_7} = 15, s = s_7 = 111
+    d^\Sigma_s = d^\Sigma_{s_7} = 12, s = s_7 = 111
   \end{displaymath}
 \end{frame}
 
@@ -448,7 +445,7 @@
   \item présentation d'un petit problème pratique;
   \item problème proche du \foreign{closest string problem} qui est
     NP-difficile;
-  \item le problème est malgé tout polynômial.
+  \item le problème est malgré tout polynômial.
   \end{itemize}\pause
 
   Perspectives:
