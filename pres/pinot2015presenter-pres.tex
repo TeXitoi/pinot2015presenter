@@ -68,6 +68,8 @@
     \centering\begin{math}\displaystyle
 }{\end{math}\par}
 
+%%% SST proposition: Présenter une~liste~de~dates de~manière~intelligible
+
 \title[Présenter une~liste~de~dates de~manière~lisible]
 {Présenter une~liste~de~dates de~manière~lisible~:
   complexité~et~algorithme}
@@ -239,6 +241,7 @@
 \begin{frame}
   \frametitle{Distance de Hamming}
 
+%%% SST proposition: Comment exprimer un rythme à partir de motifs (ou le terme anglais pattern?) et d'exceptions?
   Comment exprimer un rythme avec un autre et des exceptions?
 
   \begin{block}{Compter les exceptions}
@@ -311,6 +314,9 @@
     Soit $\S = s_1, s_2, \ldots, s_n$, $n$ chaînes \alert<2>{binaires}
     de \alert<3>{longueur 7}.
 
+%%% SST : Si j'ai bien compris, il manque un min à droite du = ?
+%%% Du coup, cette erreur se reproduit dans plusieurs slides
+
     Soit
     \begin{math}
       \displaystyle
@@ -377,6 +383,7 @@
 \begin{frame}
   \frametitle{Modélisation matricielle}
 
+%%% SST : ca peut être rigolo d'illisibilité de présenter la chaine de date origine complète :)
   \begin{displaymath}
     \S = 101, 110, 110, 011, \ldots = 4 \times 011, 3 \times
     101, 5 \times 110 = 4s_3, 3s_5, 5s_6
@@ -384,6 +391,8 @@
 
   \begin{displaymath}
     \left(
+%%% SST : Peut-être des entête de colonne? distances statiques, occurences, distance calculée?
+%%% C'est peut-être juste pour te montrer que j'ai lu cette rq...
       \begin{array}{cccccccc}
         0 & 1 & 1 &\alert<2>{2}& 1 &\alert<2>{2}&\alert<2>{2}& 3\\
         1 & 0 & 2 & 1 & 2 & 1 & 3 & 2\\
